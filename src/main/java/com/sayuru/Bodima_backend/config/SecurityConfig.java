@@ -30,21 +30,31 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         return http
                 .csrf(customizer -> customizer.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/auth/register","/api/auth/login","/oauth2/**","/error")
+                        .requestMatchers(
+                                "/api/auth/register",
+                                "/api/auth/login",
+                                "/oauth2/**",
+                                "/error"  // Add this to permit error handling
+                        )
                         .permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("/api/", true)
                         .failureUrl("/login-failure"))
-
-
-
-
-
+                .exceptionHandling(exception -> exception
+                        // Custom entry point to handle authentication errors
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            // Only send 401 if the request was to a protected API endpoint
+                            if (request.getRequestURI().startsWith("/api/")) {
+                                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                            } else {
+                                // For other cases, let it proceed to proper error handling
+                                response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
+                            }
+                        }))  // This was the missing closing parenthesis
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
