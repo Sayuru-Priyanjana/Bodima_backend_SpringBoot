@@ -5,18 +5,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
-public class UserPrincipal implements UserDetails {
+public class UserPrincipal implements UserDetails, OAuth2User {
 
     @Autowired
     private Users user;
 
+
+    private Map<String, Object> attributes;
+
     public UserPrincipal(Users user) {
         this.user = user;
+    }
+
+    public UserPrincipal(Users user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
     }
 
     @Override
@@ -25,13 +35,19 @@ public class UserPrincipal implements UserDetails {
     }
 
     @Override
+    public String getUsername() {
+        return user.getUsername();
+    }
+
+    @Override
     public String getPassword() {
         return user.getPassword();
     }
 
+    /* OAuth2User methods */
     @Override
-    public String getUsername() {
-        return user.getUsername();
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 
     @Override
@@ -52,5 +68,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return "";
     }
 }
