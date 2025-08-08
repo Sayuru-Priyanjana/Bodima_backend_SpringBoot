@@ -1,7 +1,7 @@
 package com.sayuru.Bodima_backend.controller;
 
 import com.sayuru.Bodima_backend.models.Users;
-import com.sayuru.Bodima_backend.services.AuthService;
+import com.sayuru.Bodima_backend.services.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;

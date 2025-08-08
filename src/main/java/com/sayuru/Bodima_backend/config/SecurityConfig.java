@@ -1,7 +1,7 @@
 package com.sayuru.Bodima_backend.config;
 
-import com.sayuru.Bodima_backend.services.CustomOAuth2UserService;
-import com.sayuru.Bodima_backend.services.OAuth2SuccessHandler;
+import com.sayuru.Bodima_backend.services.auth.CustomOAuth2UserService;
+import com.sayuru.Bodima_backend.services.auth.OAuth2SuccessHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

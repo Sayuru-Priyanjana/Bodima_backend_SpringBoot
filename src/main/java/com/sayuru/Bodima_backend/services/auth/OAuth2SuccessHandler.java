@@ -1,4 +1,4 @@
-package com.sayuru.Bodima_backend.services;
+package com.sayuru.Bodima_backend.services.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

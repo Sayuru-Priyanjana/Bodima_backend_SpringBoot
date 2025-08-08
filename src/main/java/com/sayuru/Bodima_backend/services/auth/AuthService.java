@@ -1,4 +1,4 @@
-package com.sayuru.Bodima_backend.services;
+package com.sayuru.Bodima_backend.services.auth;
 
 import com.sayuru.Bodima_backend.models.Users;
 import com.sayuru.Bodima_backend.repository.AuthRepo;
