@@ -23,6 +23,14 @@ public class AuthService {
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
+    public  Users getUser(String username) {
+        return repo.findByUsername(username);
+    }
+
+    public String generateTokenForUser(String username) {
+        return jwtService.generateToken(username);
+    }
+
     public Users register(Users user){
         user.setPassword(encoder.encode(user.getPassword()));
         return repo.save(user);

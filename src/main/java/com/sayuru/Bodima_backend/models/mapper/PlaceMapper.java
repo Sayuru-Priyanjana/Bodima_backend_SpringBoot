@@ -6,12 +6,23 @@ import com.sayuru.Bodima_backend.models.DTOs.UserDTO;
 import com.sayuru.Bodima_backend.models.Images;
 import com.sayuru.Bodima_backend.models.Places;
 import com.sayuru.Bodima_backend.models.Users;
+import com.sayuru.Bodima_backend.repository.AuthRepo;
+import com.sayuru.Bodima_backend.repository.PlacesRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class PlaceMapper {
+
+    @Autowired
+    private AuthRepo authRepo;
+
+    @Autowired
+    private PlacesRepo placesRepo;
+
 
     public PlaceDTO toPlaceDTO(Places place) {
         if (place == null) return null;
@@ -69,12 +80,32 @@ public class PlaceMapper {
         );
     }
 
+    public Images toImageEntity(ImageDTO dto){
+        if (dto == null) return  null;
+
+        Images image = new Images();
+
+        image.setImage_id(dto.getImage_id());
+        image.setImage_url(dto.getImage_url());
+        image.set_primary(dto.is_primary());
+        image.setPlace(placesRepo.findById(dto.getPlace_id()).orElse(null));
+
+        return image;
+    }
+
+
+    public List<Images> toImageEntityList(List<ImageDTO> imageDTOS){
+        if (imageDTOS ==null) return null;
+        return imageDTOS.stream().map(this::toImageEntity).collect(Collectors.toList());
+    }
+
 
 
     public Places toPlaceEntity(PlaceDTO dto) {
             if (dto == null) return null;
 
             Places place = new Places();
+            place.setOwner(authRepo.findByUsername(dto.getOwner().getUsername()));
             place.setPlace_id(dto.getPlace_id());
             place.setPlace_name(dto.getPlace_name());
             place.setLatitude(dto.getLatitude());
@@ -89,6 +120,7 @@ public class PlaceMapper {
             place.setViews(dto.getViews());
             place.setCreated_at(dto.getCreated_at());
             place.setUpdated_at(dto.getUpdated_at());
+            place.setPlaceImages(toImageEntityList(dto.getPlaceImages()));
 
             return place;
         }

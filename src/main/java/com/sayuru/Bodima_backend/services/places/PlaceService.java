@@ -60,11 +60,10 @@ public class PlaceService {
     }
 
     public void updatePlace(PlaceDTO placeDTO){
+        System.out.println(placeDTO.toString());
         Places place = placeMapper.toPlaceEntity(placeDTO);
-        System.out.println(place.toString());
+        placesRepo.save(place);
     }
-
-
 
     public List<PlaceDTO> searchPlacesWithinRadius(double centerLat, double centerLng, double radiusKm) {
         List<Object[]> results = placesRepo.findWithinRadiusWithDistance(centerLat, centerLng, radiusKm);
@@ -79,6 +78,13 @@ public class PlaceService {
 
             return placeDTO;
         }).collect(Collectors.toList());
+    }
+
+    public List<PlaceDTO> getPlacesByUserId(int userId) {
+        List<Places> places = placesRepo.findByOwnerId(userId);
+        return places.stream()
+                .map(placeMapper::toPlaceDTO)
+                .collect(Collectors.toList());
     }
 
 }

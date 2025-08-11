@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,10 +33,8 @@ public class OAuth2Controller {
     @GetMapping("/authorization/google")
     public void initiateGoogleOAuth2(HttpServletResponse response) throws IOException {
         // This will be handled by Spring Security's OAuth2 support
-        response.sendRedirect("/api/auth/oauth2/authorization/google");
+        response.sendRedirect("/oauth2/authorization/google");
     }
-
-
 
     @GetMapping("/failure")
     public ResponseEntity<Map<String, String>> oauth2Failure() {
@@ -43,23 +42,41 @@ public class OAuth2Controller {
                 .body(Collections.singletonMap("error", "OAuth2 authentication failed"));
     }
 
-
-    // Optional: Endpoint to get current user info
     @GetMapping("/user")
     public ResponseEntity<Map<String, Object>> getCurrentUser(@AuthenticationPrincipal UserPrincipal principal) {
         Users user = authRepo.findByUsername(principal.getUsername());
 
-        Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("email", user.getUsername());
-        userInfo.put("id", user.getId());
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", user.getId());
+        response.put("username", user.getUsername());
+        response.put("isUser", user.isUser());
 
         // Add OAuth2-specific attributes if available
         if (principal instanceof OAuth2User) {
             Map<String, Object> attributes = ((OAuth2User) principal).getAttributes();
-            userInfo.put("picture", attributes.get("picture"));
-            userInfo.put("name", attributes.get("name"));
+            response.put("picture", attributes.get("picture"));
+            response.put("name", attributes.get("name"));
         }
 
-        return ResponseEntity.ok(userInfo);
+        return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/callback")
+    public ResponseEntity<Map<String, Object>> oauth2Callback(@AuthenticationPrincipal UserPrincipal principal) {
+        Users user = authRepo.findByUsername(principal.getUsername());
+
+        String token = jwtService.generateToken(user.getUsername());
+
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("id", user.getId());
+        userData.put("username", user.getUsername());
+        userData.put("isUser", user.isUser());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("user", userData);
+
+        return ResponseEntity.ok(response);
+    }
+
 }

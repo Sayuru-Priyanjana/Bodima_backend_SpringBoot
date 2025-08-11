@@ -21,6 +21,7 @@ public class PlaceController {
 
     @PostMapping("")
     public Places addPlace(@RequestBody Places place){
+        System.out.println(place.toString());
         return placeService.addPlace(place);
     }
 
@@ -28,6 +29,10 @@ public class PlaceController {
     public ResponseEntity<List<PlaceDTO>> getAllPlaces() {
         return ResponseEntity.ok(placeService.getAllPlaces());
     }
+
+
+
+
 
     @GetMapping("/{place_id}")
     public ResponseEntity<PlaceDTO> getSinglePlace(@PathVariable int place_id) {
@@ -43,7 +48,6 @@ public class PlaceController {
     public void updatePlace(@RequestBody PlaceDTO placeDTO){
         System.out.println(placeDTO.getPlace_id());
         placeService.updatePlace(placeDTO);
-
     }
 
 
@@ -51,6 +55,14 @@ public class PlaceController {
     public List<PlaceDTO> searchByRadius(@RequestParam double lat, @RequestParam double lng, @RequestParam double radius) {
         return placeService.searchPlacesWithinRadius(lat, lng, radius);
     }
+
+
+    @GetMapping("/user/{userId}")  // Better path naming
+    public ResponseEntity<List<PlaceDTO>> getPlacesByUserId(@PathVariable int userId) {
+        List<PlaceDTO> places = placeService.getPlacesByUserId(userId);
+        return ResponseEntity.ok(places);
+    }
+
 
 
 
