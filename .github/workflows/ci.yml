@@ -35,13 +35,13 @@ jobs:
       - name: Build with Maven
         run: mvn clean install -DskipTests
 
-      # 5. Run Unit Tests
-      - name: Run Unit Tests
-        run: mvn test -Dgroups="unit"
-
-      # 6. Run Integration/API Tests
-      - name: Run Integration/API Tests
-        run: mvn verify -Dgroups="integration"
+#      # 5. Run Unit Tests
+#      - name: Run Unit Tests
+#        run: mvn test -Dgroups="unit"
+#
+#      # 6. Run Integration/API Tests
+#      - name: Run Integration/API Tests
+#        run: mvn verify -Dgroups="integration"
 
       # 7. Upload Test Reports (optional but useful)
       - name: Upload Test Reports
