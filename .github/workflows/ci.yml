@@ -14,8 +14,8 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: vihanga
-          MYSQL_DATABASE: plant_base
+          MYSQL_ROOT_PASSWORD: Spwamlu123#
+          MYSQL_DATABASE: bodima
         ports:
           - 3306:3306
         options: >-
