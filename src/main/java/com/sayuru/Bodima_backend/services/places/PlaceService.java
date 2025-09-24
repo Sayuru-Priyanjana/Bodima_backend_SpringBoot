@@ -41,9 +41,15 @@ public class PlaceService {
     }
 
     public Places addPlace(Places place){
-        placesRepo.save(place);
-        return place;
+        if (place.getPlace_name() == null || place.getPlace_name().isBlank()) {
+            throw new RuntimeException("Place name cannot be empty");
+        }
+        if (place.getRent() <= 0) {
+            throw new RuntimeException("Rent must be greater than 0");
+        }
+        return placesRepo.save(place);
     }
+
 
     public PlaceDTO getSinglePlace(int place_id) {
         return placesRepo.findById(place_id)
