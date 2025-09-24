@@ -44,7 +44,7 @@ public class PlaceApiTest {
         // Prepare full place details as map
         Map<String, Object> place = new HashMap<>();
         Map<String, Object> owner = new HashMap<>();
-        owner.put("id", 60001);  // Owner ID
+        owner.put("id", 4);  // Owner ID
         place.put("owner", owner);
         place.put("place_name", "Beachfront Villa");
         place.put("location", "6.080272369763181, 80.19198050299455");

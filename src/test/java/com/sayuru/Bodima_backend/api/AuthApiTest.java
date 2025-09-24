@@ -33,7 +33,7 @@ public class AuthApiTest {
                 .then()
                 .statusCode(200)
                 .body("token", notNullValue())
-                .body("user.username", equalTo("sayuru@gmail.com"))
+                .body("user.username", equalTo("test@gmail.com"))
                 .body("user.isUser", equalTo(false));
     }
 
