@@ -45,6 +45,7 @@ public class PlaceServiceTest {
         place.setPlace_id(1);
         place.setOwner(owner);
         place.setPlace_name("Test Place");
+        place.setRent(100);
 
         when(placesRepo.save(place)).thenReturn(place);
 
