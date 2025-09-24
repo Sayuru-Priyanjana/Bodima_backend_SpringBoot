@@ -22,7 +22,7 @@ public class AuthApiTest {
     @Test
     public void testLogin_success() {
         Map<String, Object> user = new HashMap<>();
-        user.put("username", "sayuru@gmail.com");
+        user.put("username", "test@gmail.com");
         user.put("password", "1234");
 
         given()
