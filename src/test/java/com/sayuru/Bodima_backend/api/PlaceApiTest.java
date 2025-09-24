@@ -32,7 +32,7 @@ public class PlaceApiTest {
 
         // Login to get JWT token
         Map<String, Object> user = new HashMap<>();
-        user.put("username", "sayuru@gmail.com");
+        user.put("username", "test@gmail.com");
         user.put("password", "1234");
 
         Response response = given()
