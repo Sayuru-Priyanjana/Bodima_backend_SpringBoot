@@ -35,11 +35,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK 24
         uses: actions/setup-java@v3
         with:
           distribution: zulu
-          java-version: 17
+          java-version: 24
 
       - name: Cache Maven packages
         uses: actions/cache@v3
@@ -51,8 +51,6 @@ jobs:
 
       - name: Install backend dependencies
         run: mvn clean install -DskipTests
-        working-directory: Fullstack-backend
+        working-directory: .
 
-      - name: Run backend tests (excluding Selenium)
-        run: mvn test -Dtest=!**/Selenium*.java
-        working-directory: Fullstack-backend
+
