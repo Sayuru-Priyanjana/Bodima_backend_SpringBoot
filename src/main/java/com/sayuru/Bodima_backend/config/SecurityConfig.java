@@ -59,6 +59,7 @@ public class SecurityConfig {
                                 "/api/auth/register",
                                 "/api/auth/login",
                                 "/api/auth/oauth2/**",
+                                "/api/places/**",
                                 "/error"  // Add this to permit error handling
                         )
                         .permitAll()
