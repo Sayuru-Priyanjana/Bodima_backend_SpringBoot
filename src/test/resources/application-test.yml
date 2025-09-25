@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+  sql:
+    init:
+      mode: always
+
+jwt:
+  secret: test-secret-key-for-testing-only-12345
+  expiration: 86400000
+
+logging:
+  level:
+    com.sayuru.Bodima_backend: DEBUG
+    org.springframework.security: DEBUG
